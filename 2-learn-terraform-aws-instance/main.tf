@@ -6,11 +6,24 @@ terraform {
       version = "~> 4.16"
     }
   }
-  backend "s3" {
-    bucket = "backend-bucket-test-kz"
-    key    = "terraform.tfstate"
-    region = "us-west-2"
+  ## OPTION 1: local backend state
+
+  ## OPTION 2: aws s3 bucket
+  # backend "s3" {
+  #   bucket = "backend-bucket-test-kz"
+  #   key    = "terraform.tfstate"
+  #   region = "us-west-2"
+  # }
+  
+  ## OPTION 3: tf cloud remote state
+  # and set up following: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-remote
+    cloud {
+    organization = "dizzy_world"
+    workspaces {
+      name = "learn-tfc-aws"
+    }
   }
+
   required_version = ">= 1.2.0"
 }
 
