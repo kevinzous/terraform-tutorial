@@ -6,7 +6,12 @@ terraform {
       version = "~> 4.16"
     }
   }
-
+  backend "s3" {
+    bucket = "backend-bucket-test-kz"
+    key    = "terraform.tfstate"
+    region = "us-west-2"
+  }
+  required_version = ">= 1.2.0"
 }
 
 
@@ -22,5 +27,14 @@ resource "aws_instance" "app_server" {
 
   tags = {
     Name = "ExampleAppServerInstance"
+  }
+}
+
+# use a backend bucket to store tfstate
+resource "aws_s3_bucket" "backend_bucket" {
+  bucket = "backend-bucket-test-kz"
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
   }
 }
