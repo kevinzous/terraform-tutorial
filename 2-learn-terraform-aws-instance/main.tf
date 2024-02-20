@@ -14,7 +14,6 @@ terraform {
   required_version = ">= 1.2.0"
 }
 
-
 # provider = plugin that Terraform uses to create and manage your resources.
 provider "aws" {
   region = "us-west-2"
@@ -28,14 +27,4 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
-}
-
-# use a backend bucket to store tfstate
-resource "aws_s3_bucket" "backend_bucket" {
-  bucket = "backend-bucket-test-kz"
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
-  force_destroy= true
 }
