@@ -26,7 +26,7 @@ resource "aws_instance" "app_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "ExampleAppServerInstance"
+    Name = var.instance_name
   }
 }
 
@@ -37,4 +37,5 @@ resource "aws_s3_bucket" "backend_bucket" {
     Name        = "My bucket"
     Environment = "Dev"
   }
+  force_destroy= true
 }

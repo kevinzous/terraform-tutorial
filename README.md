@@ -22,7 +22,7 @@ export AWS_SECRET_ACCESS_KEY=XXX
 ## 3- Install Terraform CLI
 
 https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
-
+If using zsh, terraform autocomplete and alias can be added in the ~/.zshrc. Cf https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/terraform/README.md
 
 ## 4- (Optional for tutorial) Install AWS CLI
 
@@ -49,4 +49,10 @@ terraform state
 terraform state list # list of the resources in your project's state.
 
 terraform destroy
+
+
+terraform apply -var "instance_name=YetAnotherName" # Setting variables via the command-line
+
+terraform output # Terraform prints output values to the screen when you apply your configuration.
+
 ```
