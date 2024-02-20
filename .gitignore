@@ -1,0 +1,6 @@
+# downloaded providers
+.terraform
+
+# tfstates files
+terraform.tfstate
+terraform.tfstate.backup
