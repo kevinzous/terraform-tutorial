@@ -39,20 +39,50 @@ aws --version
 ```
 cd `dir`
 terraform init # downloads and installs the providers defined in the configuration in .terraform
-               # create a file .terraform.lock.hcl containing version of provider specified
-terraform fmt # format the config files 
+               # create a file .terraform.lock.hcl containing dependency lock file
+terraform fmt # format the config files (indentation...)
 terraform validate # validate config files (check on syntax and consistency with respect to variables and existing states)
 terraform plan # create an execution plan
-terraform apply # When applied your configuration, Terraform wrote data into a file called terraform.tfstate
+               # Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.
+               # Compares the current configuration to the prior state and noting any differences.
+               # Proposes a set of change actions that should, if applied, make the remote objects match the configuration.
+terraform apply # executes the actions in the execution plan
+                # When applied your configuration, Terraform wrote data into a file called terraform.tfstate
 
 terraform state
 terraform state list # list of the resources in your project's state.
 
 terraform destroy
-
-
+terraform refresh = terraform apply -refresh-only -auto-approve  read remote objects and update state file
 terraform apply -var "instance_name=YetAnotherName" # Setting variables via the command-line
-
 terraform output # Terraform prints output values to the screen when you apply your configuration.
 
 ```
+
+## C- Interesting features 
+
+* Debugging terraform: we can set the var TF_LOG to (TRACE,DEBUG,INFO,WARN,ERROR,JSON) to enable detailed logging.
+`JSON` will output at TRACE level or higher 
+`export TF_LOG=DEBUG`
+![logs](image.png)
+
+* Terraform_remote_state: it is a data source and retrieves the output values from another tf configuration. # https://youtu.be/SPcwo0Gq9T8?si=1HmLj2TXJBDCXVvI&t=12674. Alternatives (live like s3) data sources should be privileged if possible. 
+
+* State locking # https://youtu.be/SPcwo0Gq9T8?si=wdGzD0Pe-z-CFuud&t=12793. State will be locked for all operations that could write state to prevent mutiple writrers.
+
+* Run triggers: allow triggers of apply when successful apply of runs in any "source" workspace. This allows to handle dependencies and update values when a workspace rely on information (remote states/output data) produced by another workspace. https://youtu.be/SPcwo0Gq9T8?si=4ltie56q3SUTkOtO&t=17866 
+
+* Sentinal : policy as code framework (paid service part of team and governance package)
+    * ex: restrict instance types of VMs/EC2
+    * restrict availbility zones used by EC2
+    * require storage buckets to be encrypted by KMS keys
+    * enforce mandatory labels
+    * enforce limits on K8S clusters
+
+ * Packer: developper tool to provision a build image that will be stored in a repository
+ ![lifecycle](image-1.png)
+
+ * Consul: service networking platform for micro-service architectures => service discovery (central registry for services in the network) / service mesh ( managing traffic between services)
+
+ * Vault: securely accessing secrets from different secrets data stores. It is deployed in a server.
+ ![vault](image-2.png) ![vault](image-3.png)
